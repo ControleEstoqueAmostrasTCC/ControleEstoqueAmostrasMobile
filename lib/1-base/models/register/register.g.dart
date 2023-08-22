@@ -8,15 +8,19 @@ part of 'register.dart';
 
 Register _$RegisterFromJson(Map<String, dynamic> json) => Register(
       id: json['id'] as String,
-      active: json['active'] as bool,
+      active: fromJsonBoolean(json['active']),
       createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       code: json['code'] as int?,
       userId: json['userId'] as String?,
       number: json['number'] as int,
       freezer: json['freezer'] as String?,
       cytogenetic: json['cytogenetic'] as String?,
-      collectionDate: json['collectionDate'] == null ? null : DateTime.parse(json['collectionDate'] as String),
+      collectionDate: json['collectionDate'] == null
+          ? null
+          : DateTime.parse(json['collectionDate'] as String),
       observation: json['observation'] as String?,
       verticalPosition: json['verticalPosition'] as int?,
       horizontalPosition: json['horizontalPosition'] as int?,
@@ -28,16 +32,36 @@ Register _$RegisterFromJson(Map<String, dynamic> json) => Register(
       tissueId: json['tissueId'] as String?,
       responsibleUserId: json['responsibleUserId'] as String?,
     )
-      ..box = json['box'] == null ? null : Box.fromJson(json['box'] as Map<String, dynamic>)
-      ..gender = json['gender'] == null ? null : Gender.fromJson(json['gender'] as Map<String, dynamic>)
+      ..box = json['box'] == null
+          ? null
+          : Box.fromJson(json['box'] as Map<String, dynamic>)
+      ..boxDescription = json['boxDescription'] as String?
+      ..gender = json['gender'] == null
+          ? null
+          : Gender.fromJson(json['gender'] as Map<String, dynamic>)
+      ..genderDescription = json['genderDescription'] as String?
       ..collectionLocation = json['collectionLocation'] == null
           ? null
-          : CollectionLocation.fromJson(json['collectionLocation'] as Map<String, dynamic>)
-      ..procedure = json['procedure'] == null ? null : Procedure.fromJson(json['procedure'] as Map<String, dynamic>)
-      ..specie = json['specie'] == null ? null : Specie.fromJson(json['specie'] as Map<String, dynamic>)
-      ..tissue = json['tissue'] == null ? null : Tissue.fromJson(json['tissue'] as Map<String, dynamic>)
-      ..responsibleUser =
-          json['responsibleUser'] == null ? null : User.fromJson(json['responsibleUser'] as Map<String, dynamic>);
+          : CollectionLocation.fromJson(
+              json['collectionLocation'] as Map<String, dynamic>)
+      ..collectionLocationDescription =
+          json['collectionLocationDescription'] as String?
+      ..procedure = json['procedure'] == null
+          ? null
+          : Procedure.fromJson(json['procedure'] as Map<String, dynamic>)
+      ..procedureDescription = json['procedureDescription'] as String?
+      ..specie = json['specie'] == null
+          ? null
+          : Specie.fromJson(json['specie'] as Map<String, dynamic>)
+      ..specieDescription = json['specieDescription'] as String?
+      ..tissue = json['tissue'] == null
+          ? null
+          : Tissue.fromJson(json['tissue'] as Map<String, dynamic>)
+      ..tissueDescription = json['tissueDescription'] as String?
+      ..responsibleUser = json['responsibleUser'] == null
+          ? null
+          : User.fromJson(json['responsibleUser'] as Map<String, dynamic>)
+      ..responsibleUserName = json['responsibleUserName'] as String?;
 
 Map<String, dynamic> _$RegisterToJson(Register instance) => <String, dynamic>{
       'id': instance.id,
@@ -54,10 +78,17 @@ Map<String, dynamic> _$RegisterToJson(Register instance) => <String, dynamic>{
       'verticalPosition': instance.verticalPosition,
       'horizontalPosition': instance.horizontalPosition,
       'boxId': instance.boxId,
+      'boxDescription': instance.boxDescription,
       'genderId': instance.genderId,
+      'genderDescription': instance.genderDescription,
       'collectionLocationId': instance.collectionLocationId,
+      'collectionLocationDescription': instance.collectionLocationDescription,
       'procedureId': instance.procedureId,
+      'procedureDescription': instance.procedureDescription,
       'specieId': instance.specieId,
+      'specieDescription': instance.specieDescription,
       'tissueId': instance.tissueId,
+      'tissueDescription': instance.tissueDescription,
       'responsibleUserId': instance.responsibleUserId,
+      'responsibleUserName': instance.responsibleUserName,
     };

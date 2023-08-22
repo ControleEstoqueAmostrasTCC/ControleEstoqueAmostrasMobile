@@ -1,4 +1,5 @@
 import 'package:controle_estoque_amostras_app/1-base/models/base/base_description_entity.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/mappers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'collection_location.g.dart';
@@ -17,5 +18,6 @@ class CollectionLocation extends BaseDescriptionEntity {
 
   factory CollectionLocation.fromJson(Map<String, dynamic> json) => _$CollectionLocationFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$CollectionLocationToJson(this);
 }

@@ -1,3 +1,4 @@
+import 'package:controle_estoque_amostras_app/2-base/utils/mappers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'base_entity.g.dart';
@@ -5,7 +6,8 @@ part 'base_entity.g.dart';
 @JsonSerializable()
 class BaseEntity {
   final String id;
-  final bool active;
+  @JsonKey(fromJson: fromJsonBoolean)
+  bool active;
   final DateTime createdAt;
   final DateTime? updatedAt;
   final int? code;

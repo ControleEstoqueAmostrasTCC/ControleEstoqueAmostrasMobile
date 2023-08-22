@@ -8,15 +8,15 @@ part of 'gender.dart';
 
 Gender _$GenderFromJson(Map<String, dynamic> json) => Gender(
       id: json['id'] as String,
-      active: json['active'] as bool,
+      active: fromJsonBoolean(json['active']),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       code: json['code'] as int?,
       userId: json['userId'] as String?,
-      description: json['description'] as String,
-    );
+      description: json['description'] as String?,
+    )..name = json['name'] as String?;
 
 Map<String, dynamic> _$GenderToJson(Gender instance) => <String, dynamic>{
       'id': instance.id,
@@ -26,4 +26,5 @@ Map<String, dynamic> _$GenderToJson(Gender instance) => <String, dynamic>{
       'code': instance.code,
       'userId': instance.userId,
       'description': instance.description,
+      'name': instance.name,
     };

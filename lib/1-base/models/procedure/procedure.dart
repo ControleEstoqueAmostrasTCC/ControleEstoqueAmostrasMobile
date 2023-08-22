@@ -1,4 +1,5 @@
 import 'package:controle_estoque_amostras_app/1-base/models/base/base_description_entity.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/mappers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'procedure.g.dart';
@@ -17,5 +18,6 @@ class Procedure extends BaseDescriptionEntity {
 
   factory Procedure.fromJson(Map<String, dynamic> json) => _$ProcedureFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ProcedureToJson(this);
 }

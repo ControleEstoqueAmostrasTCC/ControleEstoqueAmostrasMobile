@@ -9,15 +9,15 @@ part of 'collection_location.dart';
 CollectionLocation _$CollectionLocationFromJson(Map<String, dynamic> json) =>
     CollectionLocation(
       id: json['id'] as String,
-      active: json['active'] as bool,
+      active: fromJsonBoolean(json['active']),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       code: json['code'] as int?,
       userId: json['userId'] as String?,
-      description: json['description'] as String,
-    );
+      description: json['description'] as String?,
+    )..name = json['name'] as String?;
 
 Map<String, dynamic> _$CollectionLocationToJson(CollectionLocation instance) =>
     <String, dynamic>{
@@ -28,4 +28,5 @@ Map<String, dynamic> _$CollectionLocationToJson(CollectionLocation instance) =>
       'code': instance.code,
       'userId': instance.userId,
       'description': instance.description,
+      'name': instance.name,
     };

@@ -12,7 +12,10 @@ class BaseService<T extends BaseEntity> implements IBaseService<T> {
 
   BaseService(this.fromJson) {
     client = Client();
-    baseUrl = 'http://10.10.10.46:32771/api/';
+    // baseUrl = 'http://10.10.10.35:17262/api/';
+    // baseUrl = 'https://controleestoqueamostrastcc-hugoesteves.b4a.run/api/';
+    // baseUrl = 'https://controleestoqueamostrasapi.azurewebsites.net/api/';
+    baseUrl = 'https://lagenpeapi.azurewebsites.net/api/';
   }
 
   @override
@@ -48,7 +51,14 @@ class BaseService<T extends BaseEntity> implements IBaseService<T> {
   Future<T?> post(Map<String, dynamic> jsonEntity) async {
     try {
       final url = Uri.parse('$baseUrl${T.toString().capitalize()}');
-      final response = await client.post(url, body: jsonEntity);
+      final response = await client.post(
+        url,
+        body: jsonEncode(jsonEntity),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+        },
+      );
       if (hasErrorResponse(response)) throw Exception();
       final json = jsonDecode(response.body) as Map<String, dynamic>;
       return fromJson(json);

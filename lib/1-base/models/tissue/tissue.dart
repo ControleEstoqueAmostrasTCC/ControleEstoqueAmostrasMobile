@@ -1,4 +1,5 @@
 import 'package:controle_estoque_amostras_app/1-base/models/base/base_description_entity.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/mappers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tissue.g.dart';
@@ -17,5 +18,6 @@ class Tissue extends BaseDescriptionEntity {
 
   factory Tissue.fromJson(Map<String, dynamic> json) => _$TissueFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$TissueToJson(this);
 }

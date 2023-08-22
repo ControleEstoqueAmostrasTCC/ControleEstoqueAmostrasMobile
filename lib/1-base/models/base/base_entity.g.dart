@@ -8,7 +8,7 @@ part of 'base_entity.dart';
 
 BaseEntity _$BaseEntityFromJson(Map<String, dynamic> json) => BaseEntity(
       id: json['id'] as String,
-      active: json['active'] as bool,
+      active: fromJsonBoolean(json['active']),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: json['updatedAt'] == null
           ? null
