@@ -1,6 +1,0 @@
-package com.example.controle_estoque_amostras_app
-
-import io.flutter.embedding.android.FlutterActivity
-
-class MainActivity: FlutterActivity() {
-}
