@@ -8,10 +8,6 @@
             "name": "controle_estoque_amostras_app",
             "request": "launch",
             "type": "dart",
-            "args": [
-                "dart2js",
-                "enable-asserts",
-            ]
         },
         {
             "name": "controle_estoque_amostras_app (profile mode)",

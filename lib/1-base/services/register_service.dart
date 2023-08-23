@@ -44,4 +44,19 @@ class RegisterService extends BaseService<Register> implements IRegisterService 
       yield [];
     }
   }
+
+  Future<List<Register>> getByFilters(String field, String id) async {
+    try {
+      final url = Uri.parse(
+        '${baseUrl}Register/GetByFilters/?${field}Id=$id',
+      );
+      final response = await client.get(url);
+      if (hasErrorResponse(response)) throw Exception();
+      final json = jsonDecode(response.body) as List;
+      final registers = json.map((e) => fromJson(e as Map<String, dynamic>)).toList();
+      return registers;
+    } catch (_) {
+      return [];
+    }
+  }
 }
