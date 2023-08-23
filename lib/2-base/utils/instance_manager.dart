@@ -8,7 +8,11 @@ class InstanceManager {
 
   // Método para registrar uma instância associada a um nome de classe
   T registerInstance<T>(T instance, {String? entityName}) {
-    _instances.putIfAbsent(instance.runtimeType.toString() + (entityName ?? ""), () => instance);
+    _instances.putIfAbsent(
+      instance.toString().substring(instance.toString().indexOf("'") + 1, instance.toString().lastIndexOf("'")) +
+          (entityName ?? ""),
+      () => instance,
+    );
     // _instances[instance.runtimeType.toString()] = instance;
     return instance;
   }

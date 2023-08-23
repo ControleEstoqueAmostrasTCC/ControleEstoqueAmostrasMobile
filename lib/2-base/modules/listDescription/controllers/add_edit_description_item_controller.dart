@@ -13,7 +13,9 @@ class AddEditDescriptionItemController<T extends BaseDescriptionEntity> extends 
     _itemController = TextEditingController(
       text: _entity.description ?? _entity.name,
     );
-    service = instanceManager.findInstanceService(_entity.runtimeType.toString());
+    service = instanceManager.findInstanceService(
+      _entity.toString().substring(_entity.toString().indexOf("'") + 1, _entity.toString().lastIndexOf("'")),
+    );
   }
 
   //Getters
