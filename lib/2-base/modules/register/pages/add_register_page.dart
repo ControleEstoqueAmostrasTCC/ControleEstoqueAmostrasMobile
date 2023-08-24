@@ -72,12 +72,12 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
               ValueListenableBuilder(
                 valueListenable: controller.genders,
                 builder: (context, _, __) => SearchFieldWidget(
-                  label: "Gênero",
+                  label: "Sexo",
                   controller: controller.genderController,
                   suggestions:
                       controller.genders.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
                   onSuggestionTap: (value) => controller.selectedGender.value = value.item as Gender,
-                  validator: (value) => value.isNullOrEmpty ? "Gênero inválido" : null,
+                  validator: (value) => value.isNullOrEmpty ? "Sexo inválido" : null,
                 ),
               ),
               ValueListenableBuilder(
@@ -127,6 +127,14 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                 ),
               ),
               ValueListenableBuilder(
+                valueListenable: controller.hasTissue,
+                builder: (_, hasTissue, __) => CheckboxWidget(
+                  label: "Possui Tecido",
+                  value: hasTissue,
+                  onChanged: (_) => controller.hasTissue.value = !hasTissue,
+                ),
+              ),
+              ValueListenableBuilder(
                 valueListenable: controller.users,
                 builder: (context, _, __) => SearchFieldWidget(
                   label: "Responsável",
@@ -172,6 +180,14 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                 controller: controller.cytogeneticController,
                 hintText: "Citogenética",
                 validator: defaultValidator,
+              ),
+              ValueListenableBuilder(
+                valueListenable: controller.hasCytogenetic,
+                builder: (_, hasCytogenetic, __) => CheckboxWidget(
+                  label: "Possui Citogenética",
+                  value: hasCytogenetic,
+                  onChanged: (_) => controller.hasCytogenetic.value = !hasCytogenetic,
+                ),
               ),
               TextFieldWidget(
                 controller: controller.collectionDateController,
@@ -246,6 +262,35 @@ class SearchFieldWidget extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
           },
         ),
+      ],
+    );
+  }
+}
+
+///Checkbox widget with a label text
+class CheckboxWidget extends StatelessWidget {
+  final String label;
+  final bool value;
+  final void Function(bool?)? onChanged;
+
+  const CheckboxWidget({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Checkbox(
+          value: value,
+          onChanged: onChanged,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          visualDensity: VisualDensity.compact,
+        ),
+        TextWidget(label),
       ],
     );
   }

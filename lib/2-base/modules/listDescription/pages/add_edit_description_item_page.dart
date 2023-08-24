@@ -41,29 +41,30 @@ class _AddEditDescriptionItemPageState extends State<AddEditDescriptionItemPage>
                 child: ValueListenableBuilder(
                   valueListenable: controller.registers,
                   builder: (context, registers, _) => ListView.builder(
-                      itemCount: registers.length,
-                      itemBuilder: (context, index) {
-                        final register = registers[index];
-                        return Container(
-                          padding: EdgeInsets.symmetric(horizontal: 2.w),
-                          margin: EdgeInsets.symmetric(vertical: 1.h),
-                          decoration: BoxDecoration(
-                            color: blueAccent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              TextDescriptionWidget(title: "Nome", description: register.number.toString()),
-                              TextDescriptionWidget(title: "Espécie", description: register.specieDisplay),
-                              TextDescriptionWidget(
-                                title: "Caixa",
-                                description:
-                                    "${register.boxDisplay} (${register.horizontalPosition} ${returnLetterFromNumber(register.verticalPosition!)})",
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
+                    itemCount: registers.length,
+                    itemBuilder: (context, index) {
+                      final register = registers[index];
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 2.w),
+                        margin: EdgeInsets.symmetric(vertical: 1.h),
+                        decoration: BoxDecoration(
+                          color: blueAccent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            TextDescriptionWidget(title: "Nome", description: register.number.toString()),
+                            TextDescriptionWidget(title: "Espécie", description: register.specieDisplay),
+                            TextDescriptionWidget(
+                              title: "Caixa",
+                              description:
+                                  "${register.boxDisplay} (${register.horizontalPosition} ${returnLetterFromNumber(register.verticalPosition!)})",
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
             ],

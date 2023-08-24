@@ -43,12 +43,14 @@ class AddRegisterController extends ChangeNotifier {
   late final ValueNotifier<List<Tissue>> _tissues;
   late ValueNotifier<Tissue?> _selectedTissue;
   late final TextEditingController _tissueController;
+  late ValueNotifier<bool> _hasTissue;
   late final ValueNotifier<List<User>> _users;
   late ValueNotifier<User?> _selectedUser;
   late final TextEditingController _userController;
   late final TextEditingController _collectionDateController;
   late final TextEditingController _observationController;
   late final TextEditingController _cytogeneticController;
+  late ValueNotifier<bool> _hasCytogenetic;
   late final TextEditingController _freezerController;
   late final TextEditingController _registerNumberController;
   late TextEditingController _verticalPositionController;
@@ -87,6 +89,8 @@ class AddRegisterController extends ChangeNotifier {
     _registerNumberController = TextEditingController();
     _verticalPositionController = TextEditingController();
     _horizontalPositionController = TextEditingController();
+    _hasTissue = ValueNotifier(true);
+    _hasCytogenetic = ValueNotifier(true);
     _formKey = GlobalKey<FormState>();
     _dateMask = date;
     initMethods();
@@ -122,6 +126,8 @@ class AddRegisterController extends ChangeNotifier {
   TextEditingController get registerNumberController => _registerNumberController;
   TextEditingController get verticalPositionController => _verticalPositionController;
   TextEditingController get horizontalPositionController => _horizontalPositionController;
+  ValueNotifier<bool> get hasTissue => _hasTissue;
+  ValueNotifier<bool> get hasCytogenetic => _hasCytogenetic;
   GlobalKey<FormState> get formKey => _formKey;
   MaskTextInputFormatter get dateMask => _dateMask;
 
@@ -161,6 +167,8 @@ class AddRegisterController extends ChangeNotifier {
     _registerNumberController.text = '';
     _verticalPositionController.text = '';
     _horizontalPositionController.text = '';
+    _hasTissue.value = false;
+    _hasCytogenetic.value = false;
   }
 
   void configureListenerByBaseDescriptionEntity(
@@ -239,6 +247,8 @@ class AddRegisterController extends ChangeNotifier {
     _registerNumberController.text = register.number.toString();
     _verticalPositionController.text = register.verticalPosition.toString();
     _horizontalPositionController.text = register.horizontalPosition.toString();
+    _hasTissue.value = register.hasTissue;
+    _hasCytogenetic.value = register.hasCytogenetic;
   }
 
   Future<void> getBoxes() async {
@@ -445,6 +455,8 @@ class AddRegisterController extends ChangeNotifier {
         createdAt: DateTime.now(),
         number: int.parse(_registerNumberController.text),
         code: _registerCode ?? 0,
+        hasCytogenetic: _hasCytogenetic.value,
+        hasTissue: _hasTissue.value,
       );
       final createdRegister = await RegisterService().post(register.toJson());
       if (createdRegister != null) {

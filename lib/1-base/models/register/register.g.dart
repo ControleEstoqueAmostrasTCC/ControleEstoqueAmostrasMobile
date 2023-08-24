@@ -31,6 +31,8 @@ Register _$RegisterFromJson(Map<String, dynamic> json) => Register(
       specieId: json['specieId'] as String?,
       tissueId: json['tissueId'] as String?,
       responsibleUserId: json['responsibleUserId'] as String?,
+      hasCytogenetic: fromJsonBoolean(json['hasCytogenetic']),
+      hasTissue: fromJsonBoolean(json['hasTissue']),
     )
       ..box = json['box'] == null
           ? null
@@ -73,6 +75,7 @@ Map<String, dynamic> _$RegisterToJson(Register instance) => <String, dynamic>{
       'number': instance.number,
       'freezer': instance.freezer,
       'cytogenetic': instance.cytogenetic,
+      'hasCytogenetic': instance.hasCytogenetic,
       'collectionDate': instance.collectionDate?.toIso8601String(),
       'observation': instance.observation,
       'verticalPosition': instance.verticalPosition,
@@ -88,6 +91,7 @@ Map<String, dynamic> _$RegisterToJson(Register instance) => <String, dynamic>{
       'specieId': instance.specieId,
       'specieDescription': instance.specieDescription,
       'tissueId': instance.tissueId,
+      'hasTissue': instance.hasTissue,
       'tissueDescription': instance.tissueDescription,
       'responsibleUserId': instance.responsibleUserId,
       'responsibleUserName': instance.responsibleUserName,

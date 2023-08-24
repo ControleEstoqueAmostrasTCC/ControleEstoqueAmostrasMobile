@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 const _nomeBanco = "BK_LAGenPe.db";
-const _databaseVersion = 1;
+const _databaseVersion = 2;
 
 class Context {
   late Database database;
@@ -36,8 +36,7 @@ class Context {
       while (oldVersionAux < newVersion) {
         switch (oldVersionAux) {
           case 1:
-            // await Migration1(db).executaMigrations();
-            break;
+            await Migration1(db).executaMigrations();
           default:
             log("Sem migrations", name: "SQLITE");
         }
@@ -57,5 +56,19 @@ class Context {
         log("Erro ao executar $tabela", name: "LOG - Erro Ocorrido");
       }
     }
+  }
+}
+
+class Migration1 {
+  final Database db;
+  Migration1(this.db);
+
+  Future<void> executaMigrations() async {
+    try {
+      await db.execute("ALTER TABLE Register ADD COLUMN hasCytogenetic BOOLEAN");
+    } catch (_) {}
+    try {
+      await db.execute("ALTER TABLE Register ADD COLUMN hasTissue BOOLEAN");
+    } catch (_) {}
   }
 }

@@ -16,6 +16,8 @@ class Register extends BaseEntity {
   final int number;
   String? freezer;
   String? cytogenetic;
+  @JsonKey(fromJson: fromJsonBoolean)
+  late bool hasCytogenetic;
   DateTime? collectionDate;
   String? observation;
   int? verticalPosition;
@@ -41,6 +43,8 @@ class Register extends BaseEntity {
   Specie? specie;
   String? specieDescription;
   String? tissueId;
+  @JsonKey(fromJson: fromJsonBoolean)
+  late bool hasTissue;
   @JsonKey(includeToJson: false, includeIfNull: false)
   Tissue? tissue;
   String? tissueDescription;
@@ -74,6 +78,8 @@ class Register extends BaseEntity {
     this.specieId,
     this.tissueId,
     this.responsibleUserId,
+    required this.hasCytogenetic,
+    required this.hasTissue,
   });
 
   factory Register.fromJson(Map<String, dynamic> json) => _$RegisterFromJson(json);
@@ -108,6 +114,8 @@ class Register extends BaseEntity {
               tissueId TEXT,
               tissueDescription TEXT,
               responsibleUserId TEXT,
-              responsibleUserName TEXT
+              responsibleUserName TEXT,
+              hasCytogenetic BOOLEAN,
+              hasTissue BOOLEAN
             );""";
 }

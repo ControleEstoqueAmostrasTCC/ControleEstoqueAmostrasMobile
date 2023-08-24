@@ -1,6 +1,6 @@
 {
-    "name": "controle_estoque_amostras_app",
-    "short_name": "controle_estoque_amostras_app",
+    "name": "Controle de Estoque de Amostras",
+    "short_name": "Controle de Amostras",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

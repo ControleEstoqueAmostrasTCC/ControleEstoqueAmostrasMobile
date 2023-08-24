@@ -76,10 +76,10 @@ class HomePage extends StatelessWidget {
               ),
               CardMenuWidget(
                 path: iconGender,
-                title: "Gêneros",
+                title: "Sexos",
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ListDescriptionPage(entityName: "Gender", title: "Gêneros")),
+                  MaterialPageRoute(builder: (context) => const ListDescriptionPage(entityName: "Gender", title: "Sexos")),
                 ),
               ),
               CardMenuWidget(
