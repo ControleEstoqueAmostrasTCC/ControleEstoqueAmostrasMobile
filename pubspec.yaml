@@ -1,7 +1,7 @@
 name: controle_estoque_amostras_app
 description: A new Flutter project.
 
-version: 1.0.1+1
+version: 1.0.2+2
 
 environment:
   sdk: '>=3.0.3 <4.0.0'

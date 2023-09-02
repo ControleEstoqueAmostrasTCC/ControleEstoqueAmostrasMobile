@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:controle_estoque_amostras_app/1-base/context/context.dart';
+import 'package:controle_estoque_amostras_app/1-base/dtos/post_acess_dto.dart';
+import 'package:controle_estoque_amostras_app/1-base/dtos/user_claims_dto.dart';
 import 'package:controle_estoque_amostras_app/1-base/models/user/user.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/base/base_service.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/interfaces/iuser_service.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserService extends BaseService<User> implements IUserService {
@@ -35,6 +38,63 @@ class UserService extends BaseService<User> implements IUserService {
       } while (hasMorePages);
     } catch (_) {
       yield [];
+    }
+  }
+
+  @override
+  Future<User?> authenticate(String username, String password) async {
+    try {
+      const url = '/Authenticate';
+      final login = await super.post(
+        {
+          'username': username,
+          'password': password,
+        },
+        urlComplement: url,
+      );
+      if (login == null) throw Exception();
+      return login;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<UserClaimsDTO?> getAllClaimsAndUserClaimsByUserId(String? userId) async {
+    try {
+      var url = '/GetAllClaimsAndUserClaimsByUserId';
+      if (userId != null) {
+        url += '?userId=$userId';
+      }
+      final response = await get(
+        urlComplement: url,
+        headers: {"Authorization": "Bearer ${user?.token}"},
+      );
+      if (response == null) throw Exception();
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      return UserClaimsDTO.fromJson(json);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> postAccessByUserId(List<PostAcessDTO> claimsUser, String userId) async {
+    try {
+      final url = Uri.parse('${baseUrl}User/PostAccessByUserId?userId=$userId');
+      final response = await client.post(
+        url,
+        body: jsonEncode(claimsUser.map((e) => e.toJson()).toList()),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+          "Authorization": "Bearer ${user?.token}",
+        },
+      );
+      if (hasErrorResponse(response)) throw Exception();
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 }

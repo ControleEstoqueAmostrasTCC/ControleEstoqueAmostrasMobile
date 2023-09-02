@@ -4,6 +4,7 @@ import 'package:controle_estoque_amostras_app/2-base/modules/register/pages/add_
 import 'package:controle_estoque_amostras_app/2-base/modules/shared/widgets/background_widget.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/colors.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instances.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -28,27 +29,29 @@ class _MenuPageState extends State<MenuPage> {
     return BackgroundWidget(
       tipoConstrucao: TipoConstrucao.coluna,
       tipoConstrucaoFundoTela: TipoConstrucaoFundoTela.scaffold,
-      floatingActionButton: ValueListenableBuilder(
-        valueListenable: controller.selectedPage,
-        builder: (context, _, __) {
-          if (controller.selectedPage.value == 0) {
-            return FloatingActionButton(
-              backgroundColor: lightBackground,
-              onPressed: controller.goToAddRegisterPage,
-              child: const Icon(Icons.add),
-            );
-          }
-          if (controller.selectedPage.value == 1) {
-            return FloatingActionButton(
-              backgroundColor: lightBackground,
-              onPressed: () async => addRegisterController.saveRegister(context),
-              child: const Icon(Icons.save),
-            );
-          }
+      floatingActionButton: (user?.canAddRegister ?? false)
+          ? ValueListenableBuilder(
+              valueListenable: controller.selectedPage,
+              builder: (context, _, __) {
+                if (controller.selectedPage.value == 0) {
+                  return FloatingActionButton(
+                    backgroundColor: lightBackground,
+                    onPressed: controller.goToAddRegisterPage,
+                    child: const Icon(Icons.add),
+                  );
+                }
+                if (controller.selectedPage.value == 1) {
+                  return FloatingActionButton(
+                    backgroundColor: lightBackground,
+                    onPressed: () async => addRegisterController.saveRegister(context),
+                    child: const Icon(Icons.save),
+                  );
+                }
 
-          return const SizedBox();
-        },
-      ),
+                return const SizedBox();
+              },
+            )
+          : const SizedBox(),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: controller.selectedPage,
         builder: (context, _, __) {

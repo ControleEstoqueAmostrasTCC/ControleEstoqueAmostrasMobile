@@ -15,3 +15,9 @@ int convertLetterToNumber(String letter) {
   final aCharCode = 'a'.codeUnitAt(0);
   return charCode - aCharCode + 1;
 }
+
+String convertNumberToLetter(int number) {
+  final aCharCode = 'a'.codeUnitAt(0);
+  final charCode = aCharCode + number - 1;
+  return String.fromCharCode(charCode).toUpperCase();
+}
