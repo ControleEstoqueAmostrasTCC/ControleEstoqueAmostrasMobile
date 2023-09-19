@@ -125,8 +125,13 @@ class RowTextDescriptionWidget extends StatelessWidget {
   final String? description1;
   final String title2;
   final String? description2;
-  const RowTextDescriptionWidget(
-      {super.key, required this.title1, this.description1, required this.title2, this.description2});
+  const RowTextDescriptionWidget({
+    super.key,
+    required this.title1,
+    this.description1,
+    required this.title2,
+    this.description2,
+  });
 
   @override
   Widget build(BuildContext context) {

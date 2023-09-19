@@ -43,7 +43,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
         child: Form(
           key: controller.formKey,
           child: IgnorePointer(
-            ignoring: user?.canAddRegister ?? true,
+            ignoring: user?.canAddRegister == false,
             child: Column(
               // tipoConstrucao: TipoConstrucao.lista,
               // tipoConstrucaoFundoTela: TipoConstrucaoFundoTela.scaffold,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:controle_estoque_amostras_app/1-base/models/register/register.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/register_service.dart';
 import 'package:flutter/foundation.dart';

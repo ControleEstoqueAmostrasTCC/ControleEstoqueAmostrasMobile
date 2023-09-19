@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/list/pages/list_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/listDescription/controllers/list_description_controller.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/listDescription/pages/add_edit_description_item_page.dart';
