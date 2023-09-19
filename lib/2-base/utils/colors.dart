@@ -11,3 +11,4 @@ const bottomAppbar = Color(0xFF3271DE);
 const blueAccent = Color(0xFF9BD3FF);
 const red = Color(0xFFE57373);
 const greenLagenpe = Color(0xFF0e4543);
+const blueIcon = Color(0xFF243442);

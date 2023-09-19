@@ -12,7 +12,7 @@ import 'package:sqflite/sqflite.dart';
 class UserService extends BaseService<User> implements IUserService {
   UserService() : super(User.fromJson);
 
-  Stream<List<User>> getAllWithPagination() async* {
+  Stream<List<User>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

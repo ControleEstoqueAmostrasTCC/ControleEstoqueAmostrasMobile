@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 class GenderService extends BaseService<Gender> implements IGenderService {
   GenderService() : super(Gender.fromJson);
 
-  Stream<List<Gender>> getAllWithPagination() async* {
+  Stream<List<Gender>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

@@ -1,6 +1,7 @@
 import 'package:controle_estoque_amostras_app/2-base/modules/home/widgets/card_menu_widget.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/list/pages/list_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/listDescription/pages/list_description_page.dart';
+import 'package:controle_estoque_amostras_app/2-base/modules/login/pages/login_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/menu/pages/menu_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/shared/widgets/background_widget.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/assets.dart';
@@ -100,6 +101,14 @@ class HomePage extends StatelessWidget {
                         builder: (context) => const ListDescriptionPage(entityName: "User", title: "Usuários")),
                   ),
                 ),
+              CardMenuWidget(
+                path: Icons.logout,
+                title: "Sair",
+                onTap: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                ),
+              ),
             ],
           ),
         )

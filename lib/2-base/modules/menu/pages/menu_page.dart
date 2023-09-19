@@ -91,6 +91,39 @@ class _MenuPageState extends State<MenuPage> {
                 child: TextFieldWidget(
                   controller: listController.searchController,
                   prefixIcon: const Icon(Icons.search),
+                  suffixIcon: GestureDetector(
+                    onTap: () => listController.openAdvancedFilter(context),
+                    child: const Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Icon(Icons.filter_alt_rounded),
+                        // Positioned(
+                        //   top: 5,
+                        //   right: 5,
+                        //   child: ValueListenableBuilder(
+                        //     valueListenable: listController.hasAppliedFilters,
+                        //     builder: (context, _, __) {
+                        //       return AnimatedOpacity(
+                        //         opacity: listController.hasAppliedFilters.value ? 1 : 0,
+                        //         duration: const Duration(milliseconds: 300),
+                        //         child: ContainerWidget(
+                        //           height: 2.h,
+                        //           width: 2.h,
+                        //           alignment: Alignment.center,
+                        //           color: red,
+                        //           child: const Icon(
+                        //             Icons.close,
+                        //             size: 10,
+                        //             color: white,
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
                 ),
               );
             },

@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 class SpecieService extends BaseService<Specie> implements ISpecieService {
   SpecieService() : super(Specie.fromJson);
 
-  Stream<List<Specie>> getAllWithPagination() async* {
+  Stream<List<Specie>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

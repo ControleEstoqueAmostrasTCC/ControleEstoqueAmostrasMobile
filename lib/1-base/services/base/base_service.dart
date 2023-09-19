@@ -13,10 +13,9 @@ class BaseService<T extends BaseEntity> implements IBaseService<T> {
   BaseService(this.fromJson) {
     client = Client();
     // baseUrl = 'http://10.10.10.35:17262/api/';
-    baseUrl = 'http://10.10.10.52:17262/api/';
+    // baseUrl = 'http://10.10.10.33:17262/api/';
     // baseUrl = 'https://controleestoqueamostrastcc-hugoesteves.b4a.run/api/';
-    // baseUrl = 'https://controleestoqueamostrasapi.azurewebsites.net/api/';
-    // baseUrl = 'https://lagenpeapi.azurewebsites.net/api/';
+    baseUrl = 'https://lagenpeapi.azurewebsites.net/api/';
   }
 
   @override
