@@ -1,5 +1,4 @@
 import 'package:controle_estoque_amostras_app/1-base/dtos/post_acess_dto.dart';
-import 'package:controle_estoque_amostras_app/1-base/dtos/user_claims_dto.dart';
 import 'package:controle_estoque_amostras_app/1-base/models/base/base_description_entity.dart';
 import 'package:controle_estoque_amostras_app/1-base/models/user/claims.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/base/base_service.dart';
@@ -7,7 +6,7 @@ import 'package:controle_estoque_amostras_app/1-base/services/user_service.dart'
 import 'package:controle_estoque_amostras_app/2-base/modules/list/pages/list_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instance_manager.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/popups.dart';
-import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart' as staticInfos;
+import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart' as static_infos;
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -152,7 +151,7 @@ class ListDescriptionController<T extends BaseDescriptionEntity> extends ChangeN
         if (postAccess) {
           final claimsUserDTO = await userService.getAllClaimsAndUserClaimsByUserId(null);
           if (claimsUserDTO?.userClaims != null) {
-            staticInfos.user?.claims =
+            static_infos.user?.claims =
                 claimsUserDTO!.userClaims!.map((e) => Claims(value: e.claimValue, type: e.claimType)).toList();
           }
           await showDefaultPopUp(

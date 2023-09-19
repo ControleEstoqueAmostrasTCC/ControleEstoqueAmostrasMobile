@@ -36,7 +36,8 @@ class HomePage extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ListDescriptionPage(entityName: "Tissue", title: "Tecidos")),
+                      builder: (context) => const ListDescriptionPage(entityName: "Tissue", title: "Tecidos"),
+                    ),
                   ),
                 ),
               if (user?.canViewProcedureMenu ?? false)
@@ -98,7 +99,8 @@ class HomePage extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ListDescriptionPage(entityName: "User", title: "Usuários")),
+                      builder: (context) => const ListDescriptionPage(entityName: "User", title: "Usuários"),
+                    ),
                   ),
                 ),
               CardMenuWidget(
