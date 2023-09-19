@@ -10,6 +10,7 @@ import 'package:controle_estoque_amostras_app/2-base/modules/list/pages/list_pag
 import 'package:controle_estoque_amostras_app/2-base/modules/register/controllers/add_register_controller.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/colors.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instances.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/string_extension.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/validators.dart';
 import 'package:diacritic/diacritic.dart';
@@ -41,165 +42,172 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
         padding: EdgeInsets.symmetric(vertical: 1.h),
         child: Form(
           key: controller.formKey,
-          child: Column(
-            // tipoConstrucao: TipoConstrucao.lista,
-            // tipoConstrucaoFundoTela: TipoConstrucaoFundoTela.scaffold,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            // autovalidateMode: AutovalidateMode.always,
-            // formKey: controller.formKey,
-            // floatingActionButton: FloatingActionButton(
-            //   backgroundColor: lightBackground,
-            //   onPressed: () => controller.saveRegister(context),
-            //   child: const Icon(Icons.save),
-            // ),
-            children: [
-              TextFieldWidget(
-                controller: controller.registerNumberController,
-                hintText: "Número de Registro",
-                validator: defaultValidator,
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.boxes,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Caixa",
-                  controller: controller.boxController,
-                  suggestions:
-                      controller.boxes.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
-                  onSuggestionTap: (value) => controller.selectedBox.value = value.item as Box,
-                  validator: (value) => value.isNullOrEmpty ? "Caixa inválida" : null,
+          child: IgnorePointer(
+            ignoring: user?.canAddRegister ?? true,
+            child: Column(
+              // tipoConstrucao: TipoConstrucao.lista,
+              // tipoConstrucaoFundoTela: TipoConstrucaoFundoTela.scaffold,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              // autovalidateMode: AutovalidateMode.always,
+              // formKey: controller.formKey,
+              // floatingActionButton: FloatingActionButton(
+              //   backgroundColor: lightBackground,
+              //   onPressed: () => controller.saveRegister(context),
+              //   child: const Icon(Icons.save),
+              // ),
+              children: [
+                TextFieldWidget(
+                  controller: controller.registerNumberController,
+                  hintText: "Número de Registro",
+                  validator: defaultValidator,
                 ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.genders,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Sexo",
-                  controller: controller.genderController,
-                  suggestions:
-                      controller.genders.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
-                  onSuggestionTap: (value) => controller.selectedGender.value = value.item as Gender,
-                  validator: (value) => value.isNullOrEmpty ? "Sexo inválido" : null,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.collectionLocations,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Local de Coleta",
-                  controller: controller.collectionLocationController,
-                  suggestions: controller.collectionLocations.value
-                      .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
-                      .toList(),
-                  onSuggestionTap: (value) => controller.selectedCollectionLocation.value = value.item as CollectionLocation,
-                  validator: (value) => value.isNullOrEmpty ? "Local de Coleta inválido" : null,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.procedures,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Procedimento",
-                  controller: controller.procedureController,
-                  suggestions: controller.procedures.value
-                      .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
-                      .toList(),
-                  onSuggestionTap: (value) => controller.selectedProcedure.value = value.item as Procedure,
-                  validator: (value) => value.isNullOrEmpty ? "Procedimento inválido" : null,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.species,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Espécie",
-                  controller: controller.specieController,
-                  suggestions:
-                      controller.species.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
-                  onSuggestionTap: (value) => controller.selectedSpecie.value = value.item as Specie,
-                  validator: (value) => value.isNullOrEmpty ? "Espécie inválida" : null,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.tissues,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Tecido",
-                  controller: controller.tissueController,
-                  suggestions:
-                      controller.tissues.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
-                  onSuggestionTap: (value) => controller.selectedTissue.value = value.item as Tissue,
-                  validator: (value) => value.isNullOrEmpty ? "Tecido inválido" : null,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.hasTissue,
-                builder: (_, hasTissue, __) => CheckboxWidget(
-                  label: "Possui Tecido",
-                  value: hasTissue,
-                  onChanged: (_) => controller.hasTissue.value = !hasTissue,
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.users,
-                builder: (context, _, __) => SearchFieldWidget(
-                  label: "Responsável",
-                  controller: controller.userController,
-                  suggestions: controller.users.value
-                      .map((e) => SearchFieldListItem(e.name!, item: e, child: TextWidget(e.name!)))
-                      .toList(),
-                  onSuggestionTap: (value) => controller.selectedUser.value = value.item as User,
-                  validator: (value) => value.isNullOrEmpty ? "Responsável inválido" : null,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFieldWidget(
-                      controller: controller.verticalPositionController,
-                      hintText: "Posição Vertical",
-                      validator: defaultValidator,
-                      keyboardType: TextInputType.number,
-                      maxLength: 2,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
+                ValueListenableBuilder(
+                  valueListenable: controller.boxes,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Caixa",
+                    controller: controller.boxController,
+                    suggestions:
+                        controller.boxes.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
+                    onSuggestionTap: (value) => controller.selectedBox.value = value.item as Box,
+                    validator: (value) => value.isNullOrEmpty ? "Caixa inválida" : null,
                   ),
-                  SizedBox(width: 1.w),
-                  Expanded(
-                    child: TextFieldWidget(
-                      controller: controller.horizontalPositionController,
-                      hintText: "Posição Horizontal",
-                      validator: defaultValidator,
-                      maxLength: 1,
-                      textCapitalization: TextCapitalization.characters,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp("[A-Z]")),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              TextFieldWidget(controller: controller.freezerController, hintText: "Freezer", validator: defaultValidator),
-              TextFieldWidget(
-                controller: controller.cytogeneticController,
-                hintText: "Citogenética",
-                validator: defaultValidator,
-              ),
-              ValueListenableBuilder(
-                valueListenable: controller.hasCytogenetic,
-                builder: (_, hasCytogenetic, __) => CheckboxWidget(
-                  label: "Possui Citogenética",
-                  value: hasCytogenetic,
-                  onChanged: (_) => controller.hasCytogenetic.value = !hasCytogenetic,
                 ),
-              ),
-              TextFieldWidget(
-                controller: controller.collectionDateController,
-                hintText: "Data de Coleta",
-                validator: defaultValidator,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  controller.dateMask,
-                ],
-              ),
-              TextFieldWidget(controller: controller.observationController, hintText: "Observação", maxLines: 4),
-            ],
+                ValueListenableBuilder(
+                  valueListenable: controller.genders,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Sexo",
+                    controller: controller.genderController,
+                    suggestions: controller.genders.value
+                        .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
+                        .toList(),
+                    onSuggestionTap: (value) => controller.selectedGender.value = value.item as Gender,
+                    validator: (value) => value.isNullOrEmpty ? "Sexo inválido" : null,
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.collectionLocations,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Local de Coleta",
+                    controller: controller.collectionLocationController,
+                    suggestions: controller.collectionLocations.value
+                        .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
+                        .toList(),
+                    onSuggestionTap: (value) =>
+                        controller.selectedCollectionLocation.value = value.item as CollectionLocation,
+                    validator: (value) => value.isNullOrEmpty ? "Local de Coleta inválido" : null,
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.procedures,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Procedimento",
+                    controller: controller.procedureController,
+                    suggestions: controller.procedures.value
+                        .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
+                        .toList(),
+                    onSuggestionTap: (value) => controller.selectedProcedure.value = value.item as Procedure,
+                    validator: (value) => value.isNullOrEmpty ? "Procedimento inválido" : null,
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.species,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Espécie",
+                    controller: controller.specieController,
+                    suggestions: controller.species.value
+                        .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
+                        .toList(),
+                    onSuggestionTap: (value) => controller.selectedSpecie.value = value.item as Specie,
+                    validator: (value) => value.isNullOrEmpty ? "Espécie inválida" : null,
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.tissues,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Tecido",
+                    controller: controller.tissueController,
+                    suggestions: controller.tissues.value
+                        .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
+                        .toList(),
+                    onSuggestionTap: (value) => controller.selectedTissue.value = value.item as Tissue,
+                    validator: (value) => value.isNullOrEmpty ? "Tecido inválido" : null,
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.hasTissue,
+                  builder: (_, hasTissue, __) => CheckboxWidget(
+                    label: "Possui Tecido",
+                    value: hasTissue,
+                    onChanged: (_) => controller.hasTissue.value = !hasTissue,
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.users,
+                  builder: (context, _, __) => SearchFieldWidget(
+                    label: "Responsável",
+                    controller: controller.userController,
+                    suggestions: controller.users.value
+                        .map((e) => SearchFieldListItem(e.name!, item: e, child: TextWidget(e.name!)))
+                        .toList(),
+                    onSuggestionTap: (value) => controller.selectedUser.value = value.item as User,
+                    validator: (value) => value.isNullOrEmpty ? "Responsável inválido" : null,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFieldWidget(
+                        controller: controller.verticalPositionController,
+                        hintText: "Posição Vertical",
+                        validator: defaultValidator,
+                        keyboardType: TextInputType.number,
+                        maxLength: 2,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 1.w),
+                    Expanded(
+                      child: TextFieldWidget(
+                        controller: controller.horizontalPositionController,
+                        hintText: "Posição Horizontal",
+                        validator: defaultValidator,
+                        maxLength: 1,
+                        textCapitalization: TextCapitalization.characters,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp("[A-Z]")),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                TextFieldWidget(controller: controller.freezerController, hintText: "Freezer", validator: defaultValidator),
+                TextFieldWidget(
+                  controller: controller.cytogeneticController,
+                  hintText: "Citogenética",
+                  validator: defaultValidator,
+                ),
+                ValueListenableBuilder(
+                  valueListenable: controller.hasCytogenetic,
+                  builder: (_, hasCytogenetic, __) => CheckboxWidget(
+                    label: "Possui Citogenética",
+                    value: hasCytogenetic,
+                    onChanged: (_) => controller.hasCytogenetic.value = !hasCytogenetic,
+                  ),
+                ),
+                TextFieldWidget(
+                  controller: controller.collectionDateController,
+                  hintText: "Data de Coleta",
+                  validator: defaultValidator,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    controller.dateMask,
+                  ],
+                ),
+                TextFieldWidget(controller: controller.observationController, hintText: "Observação", maxLines: 4),
+              ],
+            ),
           ),
         ),
       ),

@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 class ProcedureService extends BaseService<Procedure> implements IProcedureService {
   ProcedureService() : super(Procedure.fromJson);
 
-  Stream<List<Procedure>> getAllWithPagination() async* {
+  Stream<List<Procedure>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

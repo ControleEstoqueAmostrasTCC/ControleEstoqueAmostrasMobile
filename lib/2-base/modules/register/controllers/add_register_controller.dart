@@ -246,7 +246,7 @@ class AddRegisterController extends ChangeNotifier {
     _freezerController.text = register.freezer ?? "";
     _registerNumberController.text = register.number.toString();
     _verticalPositionController.text = register.verticalPosition.toString();
-    _horizontalPositionController.text = register.horizontalPosition.toString();
+    _horizontalPositionController.text = convertNumberToLetter(register.horizontalPosition ?? 0);
     _hasTissue.value = register.hasTissue;
     _hasCytogenetic.value = register.hasCytogenetic;
   }

@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 class BoxService extends BaseService<Box> implements IBoxService {
   BoxService() : super(Box.fromJson);
 
-  Stream<List<Box>> getAllWithPagination() async* {
+  Stream<List<Box>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

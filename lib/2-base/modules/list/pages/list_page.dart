@@ -5,6 +5,7 @@ import 'package:controle_estoque_amostras_app/2-base/utils/colors.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/converters.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/fonts.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instances.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -27,20 +28,16 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // BackgroundWidget(
-        // tipoConstrucao: TipoConstrucao.coluna,
-        // tipoConstrucaoFundoTela: TipoConstrucaoFundoTela.scaffold,
-        // children:
-        Column(
+    return Column(
       children: [
         Expanded(
           child: ValueListenableBuilder<List<Register>>(
             valueListenable: controller.registers,
             builder: (context, _, __) => RefreshIndicator(
-              onRefresh: () async {
-                controller.getRegisters();
-              },
+              onRefresh: () async {},
+              // onRefresh: () async {
+              //   controller.getRegisters();
+              // },
               child: ListView.builder(
                 itemCount: controller.registers.value.length,
                 itemBuilder: (context, index) {
@@ -48,7 +45,7 @@ class _ListPageState extends State<ListPage> {
                   return GestureDetector(
                     onTap: () => controller.viewEditRegister(context, register),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 2.w),
+                      padding: EdgeInsets.symmetric(horizontal: 1.w),
                       margin: EdgeInsets.symmetric(vertical: 1.h),
                       decoration: BoxDecoration(
                         color: blueAccent,
@@ -56,13 +53,40 @@ class _ListPageState extends State<ListPage> {
                       ),
                       child: Column(
                         children: [
-                          TextDescriptionWidget(title: "Nome", description: register.number.toString()),
-                          TextDescriptionWidget(title: "Espécie", description: register.specieDisplay),
-                          TextDescriptionWidget(
-                            title: "Caixa",
-                            description:
+                          TextDescriptionWidget(title: "Código/Registro", description: register.number.toString()),
+                          RowTextDescriptionWidget(
+                            title1: "Freezer",
+                            description1: register.freezer,
+                            title2: "Caixa",
+                            description2:
                                 "${register.boxDisplay} (${register.horizontalPosition} ${returnLetterFromNumber(register.verticalPosition!)})",
                           ),
+                          RowTextDescriptionWidget(
+                            title1: "Citogenética",
+                            description1: register.cytogenetic,
+                            title2: "Tem Citogenética",
+                            description2: register.hasCytogenetic ? "Sim" : "Não",
+                          ),
+                          RowTextDescriptionWidget(
+                            title1: "Tecido",
+                            description1: register.tissueDisplay,
+                            title2: "Tem Tecido",
+                            description2: register.hasTissue ? "Sim" : "Não",
+                          ),
+                          RowTextDescriptionWidget(
+                            title1: "Sexo",
+                            description1: register.genderDisplay,
+                            title2: "Espécie",
+                            description2: register.specieDisplay,
+                          ),
+                          RowTextDescriptionWidget(
+                            title1: "Local",
+                            description1: register.collectionLocationDisplay,
+                            title2: "Data",
+                            description2: register.collectionDateDisplay,
+                          ),
+                          if (!register.observation.isNullOrEmpty)
+                            TextDescriptionWidget(title: "Observação", description: register.observation)
                         ],
                       ),
                     ),
@@ -92,6 +116,25 @@ class TextDescriptionWidget extends StatelessWidget {
           Expanded(child: TextWidget(description ?? "Não Informado", fontSize: 14)),
         ],
       ),
+    );
+  }
+}
+
+class RowTextDescriptionWidget extends StatelessWidget {
+  final String title1;
+  final String? description1;
+  final String title2;
+  final String? description2;
+  const RowTextDescriptionWidget(
+      {super.key, required this.title1, this.description1, required this.title2, this.description2});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: TextDescriptionWidget(title: title1, description: description1)),
+        Expanded(child: TextDescriptionWidget(title: title2, description: description2)),
+      ],
     );
   }
 }
@@ -177,6 +220,8 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
   final int? maxLines;
+  final bool obscureText;
+  final Widget? suffixIcon;
 
   const TextFieldWidget({
     super.key,
@@ -189,6 +234,8 @@ class TextFieldWidget extends StatelessWidget {
     this.keyboardType,
     this.textCapitalization = TextCapitalization.none,
     this.maxLines,
+    this.obscureText = false,
+    this.suffixIcon,
   });
 
   @override
@@ -205,11 +252,13 @@ class TextFieldWidget extends StatelessWidget {
           keyboardType: keyboardType,
           textCapitalization: textCapitalization,
           maxLines: maxLines,
+          obscureText: obscureText,
           decoration: InputDecoration(
             counterText: "",
             helperText: validator == null ? null : "",
             hintText: hintText,
             prefixIcon: prefixIcon, //const Icon(Icons.search),
+            suffixIcon: suffixIcon,
             filled: true,
             fillColor: white,
             border: OutlineInputBorder(

@@ -1,9 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/list/pages/list_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/listDescription/controllers/list_description_controller.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/listDescription/pages/add_edit_description_item_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/shared/widgets/background_widget.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/colors.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instance_manager.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -69,6 +71,13 @@ class _ListDescriptionPageState extends State<ListDescriptionPage> {
                               description: controller.itens.value[index].description ?? controller.itens.value[index].name,
                             ),
                           ),
+                          if (widget.entityName == "User" && (user?.canEditAccessUser ?? false))
+                            IconButton(
+                              icon: const Icon(Icons.security, color: black),
+                              onPressed: () => controller.addClaimUser(context, index),
+                              padding: EdgeInsets.zero,
+                              visualDensity: VisualDensity.compact,
+                            ),
                         ],
                       ),
                     ],

@@ -13,8 +13,8 @@ class BaseService<T extends BaseEntity> implements IBaseService<T> {
   BaseService(this.fromJson) {
     client = Client();
     // baseUrl = 'http://10.10.10.35:17262/api/';
+    // baseUrl = 'http://10.10.10.33:17262/api/';
     // baseUrl = 'https://controleestoqueamostrastcc-hugoesteves.b4a.run/api/';
-    // baseUrl = 'https://controleestoqueamostrasapi.azurewebsites.net/api/';
     baseUrl = 'https://lagenpeapi.azurewebsites.net/api/';
   }
 
@@ -48,20 +48,33 @@ class BaseService<T extends BaseEntity> implements IBaseService<T> {
   }
 
   @override
-  Future<T?> post(Map<String, dynamic> jsonEntity) async {
+  Future<T?> post(Object? jsonEntity, {String? urlComplement, Map<String, String>? headers}) async {
     try {
-      final url = Uri.parse('$baseUrl${T.toString().capitalize()}');
+      final url = Uri.parse('$baseUrl${T.toString().capitalize()}${urlComplement ?? ''}');
       final response = await client.post(
         url,
         body: jsonEncode(jsonEntity),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          ...?headers,
         },
       );
       if (hasErrorResponse(response)) throw Exception();
       final json = jsonDecode(response.body) as Map<String, dynamic>;
       return fromJson(json);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<Response?> get({String? urlComplement, Map<String, String>? headers}) async {
+    try {
+      final url = Uri.parse('$baseUrl${T.toString().capitalize()}${urlComplement ?? ''}');
+      final response = await client.get(url, headers: headers);
+      if (hasErrorResponse(response)) throw Exception();
+      return response;
     } catch (_) {
       return null;
     }

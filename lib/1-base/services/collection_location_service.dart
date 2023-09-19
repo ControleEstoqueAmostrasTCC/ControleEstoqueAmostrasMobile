@@ -8,7 +8,7 @@ import 'package:sqflite/sqflite.dart';
 class CollectionLocationService extends BaseService<CollectionLocation> implements ICollectionLocationService {
   CollectionLocationService() : super(CollectionLocation.fromJson);
 
-  Stream<List<CollectionLocation>> getAllWithPagination() async* {
+  Stream<List<CollectionLocation>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

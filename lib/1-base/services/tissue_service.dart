@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 class TissueService extends BaseService<Tissue> implements ITissueService {
   TissueService() : super(Tissue.fromJson);
 
-  Stream<List<Tissue>> getAllWithPagination() async* {
+  Stream<List<Tissue>> getAllWithPaginationStream() async* {
     try {
       int page = 1;
       const pageSize = 1000;

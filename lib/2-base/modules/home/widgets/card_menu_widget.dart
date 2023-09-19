@@ -5,9 +5,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CardMenuWidget extends StatelessWidget {
   final void Function()? onTap;
-  final String path;
+  final dynamic path;
   final String title;
-  const CardMenuWidget({super.key, this.onTap, required this.path, required this.title});
+  const CardMenuWidget({super.key, this.onTap, required this.path, required this.title})
+      : assert(path is String || path is IconData);
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +23,13 @@ class CardMenuWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Image.asset(
-              path,
-              height: 12.5.h,
-            ),
+            if (path is String)
+              Image.asset(
+                path as String,
+                height: 12.5.h,
+              )
+            else
+              Icon(path as IconData, size: 12.5.h, color: blueIcon),
             TextWidget(title, fontWeight: FontWeight.bold)
           ],
         ),
