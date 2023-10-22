@@ -15,15 +15,27 @@ class ListDescriptionController<T extends BaseDescriptionEntity> extends ChangeN
   late final BaseService service;
   late final ValueNotifier<List<T>> _itens;
   late final String _entityName;
+  late final TextEditingController _searchController;
 
   ListDescriptionController(this._entityName) {
     service = instanceManager.findInstanceService<T>(_entityName);
     _itens = ValueNotifier<List<T>>([]);
+    _searchController = TextEditingController()..addListener(() => _itens.notifyListeners());
     _loadItens();
   }
 
   //Getters
-  ValueNotifier<List<T>> get itens => _itens;
+  ValueNotifier<List<T>> get itens {
+    if (_searchController.text.isEmpty) return _itens;
+    final filteredItens = _itens.value.where((element) {
+      final search = removeDiacritics(_searchController.text.toLowerCase());
+      final value = removeDiacritics(element.description?.toLowerCase() ?? element.name?.toLowerCase() ?? "");
+      return value.contains(search);
+    }).toList();
+    return ValueNotifier<List<T>>(filteredItens);
+  }
+
+  TextEditingController get searchController => _searchController;
 
   //Methods
   Future<void> _loadItens() async {
@@ -151,7 +163,7 @@ class ListDescriptionController<T extends BaseDescriptionEntity> extends ChangeN
         if (postAccess) {
           final claimsUserDTO = await userService.getAllClaimsAndUserClaimsByUserId(null);
           if (claimsUserDTO?.userClaims != null) {
-            static_infos.user?.claims =
+            static_infos.user.claims =
                 claimsUserDTO!.userClaims!.map((e) => Claims(value: e.claimValue, type: e.claimType)).toList();
           }
           await showDefaultPopUp(

@@ -18,19 +18,24 @@ class CardMenuWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 2.w),
         margin: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
         decoration: BoxDecoration(
-          color: blueAccent,
+          color: white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           children: [
             if (path is String)
-              Image.asset(
-                path as String,
-                height: 12.5.h,
+              Expanded(
+                child: Image.asset(
+                  path as String,
+                  height: 10.h,
+                ),
               )
             else
-              Icon(path as IconData, size: 12.5.h, color: blueIcon),
-            TextWidget(title, fontWeight: FontWeight.bold)
+              Expanded(child: Icon(path as IconData, size: 10.h, color: blueIcon)),
+            Padding(
+              padding: EdgeInsets.only(bottom: 1.h),
+              child: TextWidget(title, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

@@ -35,6 +35,10 @@ class _ListDescriptionPageState extends State<ListDescriptionPage> {
       title: widget.title,
       onTapAdd: () => controller.addItem(context),
       children: [
+        TextFieldWidget(
+          controller: controller.searchController,
+          prefixIcon: const Icon(Icons.search),
+        ),
         Expanded(
           child: ValueListenableBuilder(
             valueListenable: controller.itens,
@@ -56,7 +60,7 @@ class _ListDescriptionPageState extends State<ListDescriptionPage> {
                   padding: EdgeInsets.symmetric(horizontal: 2.w),
                   margin: EdgeInsets.symmetric(vertical: 1.h),
                   decoration: BoxDecoration(
-                    color: blueAccent,
+                    color: white,
                     borderRadius: BorderRadius.circular(10),
                     border: controller.itens.value[index].active ? null : Border.all(color: red),
                   ),
@@ -66,11 +70,11 @@ class _ListDescriptionPageState extends State<ListDescriptionPage> {
                         children: [
                           Expanded(
                             child: TextDescriptionWidget(
-                              title: "Identificação",
+                              title: "",
                               description: controller.itens.value[index].description ?? controller.itens.value[index].name,
                             ),
                           ),
-                          if (widget.entityName == "User" && (user?.canEditAccessUser ?? false))
+                          if (widget.entityName == "User" && (user.canEditAccessUser))
                             IconButton(
                               icon: const Icon(Icons.security, color: black),
                               onPressed: () => controller.addClaimUser(context, index),
@@ -85,7 +89,7 @@ class _ListDescriptionPageState extends State<ListDescriptionPage> {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

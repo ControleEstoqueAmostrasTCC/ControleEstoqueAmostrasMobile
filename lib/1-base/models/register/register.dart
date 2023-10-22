@@ -6,6 +6,7 @@ import 'package:controle_estoque_amostras_app/1-base/models/procedure/procedure.
 import 'package:controle_estoque_amostras_app/1-base/models/specie/specie.dart';
 import 'package:controle_estoque_amostras_app/1-base/models/tissue/tissue.dart';
 import 'package:controle_estoque_amostras_app/1-base/models/user/user.dart';
+import 'package:controle_estoque_amostras_app/2-base/utils/converters.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/formatters.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/mappers.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -60,7 +61,9 @@ class Register extends BaseEntity {
   String? get genderDisplay => gender?.description ?? genderDescription;
   String? get tissueDisplay => tissue?.description ?? tissueDescription;
   String? get collectionLocationDisplay => collectionLocation?.description ?? collectionLocationDescription;
-  String get collectionDateDisplay => collectionDate == null ? "Não Informado" : formatDateTimeToBrazil(collectionDate!);
+  String? get collectionDateDisplay => collectionDate == null ? null : formatDateTimeToBrazil(collectionDate!);
+  String get title =>
+      "$number - $boxDisplay ($horizontalPosition ${returnLetterFromNumber(verticalPosition!)})${freezer != null ? " - $freezer" : ""}";
 
   Register({
     required super.id,

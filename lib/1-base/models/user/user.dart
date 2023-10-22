@@ -9,6 +9,10 @@ part 'user.g.dart';
 class User extends BaseDescriptionEntity {
   List<Claims>? claims;
   String? token;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? login;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? password;
 
   bool get canViewTissueMenu => claims?.any((e) => e.type == "Tecido" && e.value == "Visualizar") ?? false;
   bool get canViewBoxMenu => claims?.any((e) => e.type == "Caixa" && e.value == "Visualizar") ?? false;
@@ -20,6 +24,8 @@ class User extends BaseDescriptionEntity {
   bool get canViewSpecieMenu => claims?.any((e) => e.type == "Espécie" && e.value == "Visualizar") ?? false;
   bool get canViewUserMenu => claims?.any((e) => e.type == "Usuário" && e.value == "Visualizar") ?? false;
   bool get canEditAccessUser => claims?.any((e) => e.type == "Usuário" && e.value == "Editar Acesso") ?? false;
+  bool get canDownloadExcel => claims?.any((e) => e.type == "Usuário" && e.value == "Excel") ?? false;
+
   User({
     required super.id,
     required super.active,

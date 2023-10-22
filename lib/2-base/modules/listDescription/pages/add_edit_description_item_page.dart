@@ -66,7 +66,7 @@ class _AddEditDescriptionItemPageState extends State<AddEditDescriptionItemPage>
                     },
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

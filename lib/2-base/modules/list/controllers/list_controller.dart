@@ -69,7 +69,8 @@ class ListController extends ChangeNotifier {
                           .contains(collectionLocalController.text.toLowerCase()) ??
                       false)) &&
               (collectionDateController.text.isEmpty ||
-                  register.collectionDateDisplay.toLowerCase().contains(collectionDateController.text.toLowerCase())),
+                  (register.collectionDateDisplay?.toLowerCase().contains(collectionDateController.text.toLowerCase()) ??
+                      false)),
         )
         .toList();
     registers.notifyListeners();

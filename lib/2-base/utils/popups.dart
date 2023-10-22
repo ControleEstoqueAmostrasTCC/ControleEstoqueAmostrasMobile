@@ -9,9 +9,11 @@ Future<void> showDefaultPopUp(
   Widget child,
   String textButton,
   FutureOr<void> Function()? onPressedButton,
-  BuildContext context,
-) async {
+  BuildContext context, {
+  bool barrierDismissible = true,
+}) async {
   return showDialog(
+    barrierDismissible: barrierDismissible,
     context: context,
     builder: (BuildContext context) {
       return Center(
@@ -33,7 +35,7 @@ Future<void> showDefaultPopUp(
                       child: child,
                     ),
                   ),
-                  ButtonWidget(text: textButton, onPressed: onPressedButton)
+                  ButtonWidget(text: textButton, onPressed: onPressedButton),
                 ],
               ),
             ),
@@ -47,6 +49,16 @@ Future<void> showDefaultPopUp(
 Future<void> errorPopUp(String message, BuildContext context) async {
   return showDefaultPopUp(
     "Erro",
+    TextWidget(message),
+    "Ok",
+    () => Navigator.pop(context),
+    context,
+  );
+}
+
+Future<void> successPopUp(String message, BuildContext context) async {
+  return showDefaultPopUp(
+    "Sucesso",
     TextWidget(message),
     "Ok",
     () => Navigator.pop(context),
@@ -86,7 +98,7 @@ Future<void> showListPopUp(
                       ),
                     ),
                   ),
-                  ButtonWidget(text: textButton, onPressed: onPressedButton)
+                  ButtonWidget(text: textButton, onPressed: onPressedButton),
                 ],
               ),
             ),

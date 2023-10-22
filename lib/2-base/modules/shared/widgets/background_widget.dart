@@ -20,6 +20,7 @@ class BackgroundWidget extends StatelessWidget {
   final void Function()? onTapEdit;
   final void Function()? onTapAdd;
   final bool deleted;
+  final bool showBackButtonLogoLagenpe;
   const BackgroundWidget({
     super.key,
     required this.tipoConstrucao,
@@ -36,6 +37,7 @@ class BackgroundWidget extends StatelessWidget {
     this.onTapEdit,
     this.deleted = false,
     this.onTapAdd,
+    this.showBackButtonLogoLagenpe = false,
   });
 
   @override
@@ -56,7 +58,7 @@ class BackgroundWidget extends StatelessWidget {
 
   Widget background(BuildContext context) => SafeArea(
         child: ColoredBox(
-          color: defaultColor,
+          color: backgroundBlack,
           child: Column(
             children: [
               Padding(
@@ -107,33 +109,51 @@ class BackgroundWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Lagenpe\n",
-                                    style: TextStyle(fontFamily: 'Futura2', color: white, fontSize: big),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "Lagenpe\n",
+                                        style: TextStyle(fontFamily: 'Futura2', color: white, fontSize: big),
+                                      ),
+                                      // TextSpan(
+                                      //   text: "Laboratório de Genômica e",
+                                      //   style: TextStyle(
+                                      //     fontFamily: 'Koblenz',
+                                      //     color: white,
+                                      //     fontSize: mediumBig,
+                                      //     fontWeight: FontWeight.bold,
+                                      //   ),
+                                      // ),
+                                      TextSpan(
+                                        text: "Laboratório de Genômica e\nConservação de Peixes",
+                                        style: TextStyle(
+                                          fontFamily: 'Futura2',
+                                          color: white,
+                                          fontSize: smallMedium,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  // TextSpan(
-                                  //   text: "Laboratório de Genômica e",
-                                  //   style: TextStyle(
-                                  //     fontFamily: 'Koblenz',
-                                  //     color: white,
-                                  //     fontSize: mediumBig,
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // ),
-                                  TextSpan(
-                                    text: "Laboratório de Genômica e\nConservação de Peixes",
-                                    style: TextStyle(
-                                      fontFamily: 'Futura2',
-                                      color: white,
-                                      fontSize: smallMedium,
+                                ),
+                                Visibility(
+                                  visible: showBackButtonLogoLagenpe,
+                                  child: Positioned(
+                                    left: 0,
+                                    top: 0,
+                                    child: IconButton(
+                                      onPressed: () => Navigator.of(context).pop(),
+                                      icon: const Icon(Icons.arrow_back_ios, color: white),
+                                      padding: EdgeInsets.zero,
+                                      visualDensity: VisualDensity.compact,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                           Image.asset(logoImageLabNoBackground, width: 40.w, height: 10.h),
@@ -148,7 +168,7 @@ class BackgroundWidget extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(3.w), topRight: Radius.circular(3.w)),
-                    color: lightBackground,
+                    color: lightGrey,
                   ),
                   child: Form(
                     key: formKey,

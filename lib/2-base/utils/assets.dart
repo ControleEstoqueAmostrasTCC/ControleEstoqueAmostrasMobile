@@ -14,3 +14,4 @@ const iconUser = '$_baseImage/icon_user.png';
 const iconProcedure = '$_baseImage/icon_procedure.png';
 const iconCollectionLocation = '$_baseImage/icon_collection_location.png';
 const iconBox = '$_baseImage/icon_box.png';
+const logoLagenpeLogin = '$_baseImage/logo_lagenpe_login.png';

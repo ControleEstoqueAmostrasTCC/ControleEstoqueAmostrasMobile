@@ -29,22 +29,23 @@ class _MenuPageState extends State<MenuPage> {
     return BackgroundWidget(
       tipoConstrucao: TipoConstrucao.coluna,
       tipoConstrucaoFundoTela: TipoConstrucaoFundoTela.scaffold,
-      floatingActionButton: (user?.canAddRegister ?? false)
+      showBackButtonLogoLagenpe: true,
+      floatingActionButton: (user.canAddRegister)
           ? ValueListenableBuilder(
               valueListenable: controller.selectedPage,
               builder: (context, _, __) {
                 if (controller.selectedPage.value == 0) {
                   return FloatingActionButton(
-                    backgroundColor: lightBackground,
+                    backgroundColor: backgroundBlack,
                     onPressed: controller.goToAddRegisterPage,
-                    child: const Icon(Icons.add),
+                    child: const Icon(Icons.add, color: white),
                   );
                 }
                 if (controller.selectedPage.value == 1) {
                   return FloatingActionButton(
-                    backgroundColor: lightBackground,
+                    backgroundColor: backgroundBlack,
                     onPressed: () async => addRegisterController.saveRegister(context),
-                    child: const Icon(Icons.save),
+                    child: const Icon(Icons.save, color: white),
                   );
                 }
 
@@ -57,7 +58,7 @@ class _MenuPageState extends State<MenuPage> {
         builder: (context, _, __) {
           return BottomAppBar(
             shape: const CircularNotchedRectangle(),
-            color: bottomAppbar,
+            color: backgroundBlack,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
               child: Row(
@@ -144,7 +145,7 @@ class _MenuPageState extends State<MenuPage> {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -167,14 +168,13 @@ class ItemAppBarWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ContainerWidget(
-        color: selected ? blueAccent : transparent,
-        height: 4.h,
-        width: 10.w,
-        margin: EdgeInsets.symmetric(vertical: 0.25.h),
+        color: selected ? white : transparent,
+        height: 15.h,
+        width: 15.w,
         child: Icon(
           icon,
-          size: 6.w,
-          color: selected ? black : blueAccent,
+          size: 8.w,
+          color: selected ? black : white,
         ),
       ),
     );

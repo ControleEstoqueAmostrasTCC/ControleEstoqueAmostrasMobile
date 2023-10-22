@@ -1,6 +1,7 @@
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 double tooBig = 32.sp;
+double bigMedium = 26.sp;
 double big = 24.sp;
 double mediumBig = 20.sp;
 double medium = 18.sp;

@@ -38,7 +38,12 @@ class LoginController extends ChangeNotifier {
     if (login?.token == null) {
       return errorPopUp("Usuário e/ou senha incorretos", context);
     }
+    if (login == null) {
+      return errorPopUp("Erro ao realizar login", context);
+    }
     user = login;
+    user.login = _loginController.text;
+    user.password = _passwordController.text;
     Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
 }

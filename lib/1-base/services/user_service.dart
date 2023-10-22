@@ -68,7 +68,7 @@ class UserService extends BaseService<User> implements IUserService {
       }
       final response = await get(
         urlComplement: url,
-        headers: {"Authorization": "Bearer ${user?.token}"},
+        headers: {"Authorization": "Bearer ${user.token}"},
       );
       if (response == null) throw Exception();
       final json = jsonDecode(response.body) as Map<String, dynamic>;
@@ -88,7 +88,31 @@ class UserService extends BaseService<User> implements IUserService {
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
-          "Authorization": "Bearer ${user?.token}",
+          "Authorization": "Bearer ${user.token}",
+        },
+      );
+      if (hasErrorResponse(response)) throw Exception();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> updatePassword(String password) async {
+    try {
+      final url = Uri.parse('${baseUrl}User/UpdatePassword');
+      final response = await client.put(
+        url,
+        body: jsonEncode({
+          "id": user.id,
+          "oldPassword": user.password,
+          "newPassword": password,
+        }),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+          "Authorization": "Bearer ${user.token}",
         },
       );
       if (hasErrorResponse(response)) throw Exception();

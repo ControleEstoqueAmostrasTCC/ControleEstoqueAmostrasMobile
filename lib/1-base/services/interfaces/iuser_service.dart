@@ -7,4 +7,5 @@ abstract interface class IUserService implements IBaseService<User> {
   Future<User?> authenticate(String username, String password);
   Future<UserClaimsDTO?> getAllClaimsAndUserClaimsByUserId(String? userId);
   Future<bool> postAccessByUserId(List<PostAcessDTO> claimsUser, String userId);
+  Future<bool> updatePassword(String password);
 }

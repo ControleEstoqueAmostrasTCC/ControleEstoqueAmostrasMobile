@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:controle_estoque_amostras_app/1-base/models/register/register.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/list/controllers/list_controller.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/colors.dart';
-import 'package:controle_estoque_amostras_app/2-base/utils/converters.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/fonts.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instances.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/string_extension.dart';
@@ -48,24 +47,25 @@ class _ListPageState extends State<ListPage> {
                       padding: EdgeInsets.symmetric(horizontal: 1.w),
                       margin: EdgeInsets.symmetric(vertical: 1.h),
                       decoration: BoxDecoration(
-                        color: blueAccent,
+                        color: white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
                         children: [
-                          TextDescriptionWidget(title: "Código/Registro", description: register.number.toString()),
-                          RowTextDescriptionWidget(
-                            title1: "Freezer",
-                            description1: register.freezer,
-                            title2: "Caixa",
-                            description2:
-                                "${register.boxDisplay} (${register.horizontalPosition} ${returnLetterFromNumber(register.verticalPosition!)})",
+                          TextDescriptionWidget(
+                            title: "",
+                            description: register.title,
                           ),
+                          // TextDescriptionWidget(
+                          //   title: "Caixa Tecido",
+                          //   description:
+                          //       "${register.boxDisplay} (${register.horizontalPosition} ${returnLetterFromNumber(register.verticalPosition!)})",
+                          // ),
                           RowTextDescriptionWidget(
-                            title1: "Citogenética",
-                            description1: register.cytogenetic,
-                            title2: "Tem Citogenética",
-                            description2: register.hasCytogenetic ? "Sim" : "Não",
+                            title1: "Tem Cito.",
+                            description1: register.hasCytogenetic ? "Sim" : "Não",
+                            title2: "Cito.",
+                            description2: register.cytogenetic,
                           ),
                           RowTextDescriptionWidget(
                             title1: "Tecido",
@@ -86,7 +86,7 @@ class _ListPageState extends State<ListPage> {
                             description2: register.collectionDateDisplay,
                           ),
                           if (!register.observation.isNullOrEmpty)
-                            TextDescriptionWidget(title: "Observação", description: register.observation)
+                            TextDescriptionWidget(title: "Observação", description: register.observation),
                         ],
                       ),
                     ),
@@ -112,8 +112,8 @@ class TextDescriptionWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: .5.h),
       child: Row(
         children: [
-          TextWidget("$title: ", fontWeight: FontWeight.bold),
-          Expanded(child: TextWidget(description ?? "Não Informado", fontSize: 14)),
+          if (title.isNotEmpty) TextWidget("$title: ", fontWeight: FontWeight.bold, color: black),
+          Expanded(child: TextWidget(description ?? "Não Informado", fontSize: 14, color: black)),
         ],
       ),
     );
@@ -151,13 +151,24 @@ class TextWidget extends StatelessWidget {
   final TextDecoration? decoration;
   final FontWeight? fontWeight;
   final String? fontFamily;
-  const TextWidget(this.text, {super.key, this.color, this.fontSize, this.decoration, this.fontWeight, this.fontFamily});
+  final double? letterSpacing;
+  const TextWidget(
+    this.text, {
+    super.key,
+    this.color,
+    this.fontSize,
+    this.decoration,
+    this.fontWeight,
+    this.fontFamily,
+    this.letterSpacing,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       style: TextStyle(
+        letterSpacing: letterSpacing,
         color: color,
         fontSize: fontSize ?? smallMedium,
         decoration: decoration,
@@ -184,7 +195,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        if (widget.onPressed is Future) {
+        if (widget.onPressed.runtimeType.toString().toLowerCase().contains('future')) {
           setState(() => isLoading = true);
           await widget.onPressed?.call();
           setState(() => isLoading = false);
@@ -193,12 +204,13 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: lightBackground,
+        backgroundColor: backgroundBlack,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(widget.radius ?? 2.w),
         ),
-        side: const BorderSide(color: white),
+        side: const BorderSide(color: backgroundBlack),
         padding: EdgeInsets.zero,
+        fixedSize: Size(double.infinity, 5.h),
       ),
       child: isLoading
           ? Center(
@@ -206,11 +218,14 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                 height: 5.w,
                 width: 5.w,
                 child: const CircularProgressIndicator(
-                  color: defaultColor,
+                  color: white,
                 ),
               ),
             )
-          : TextWidget(widget.text, color: white, fontSize: medium),
+          : Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
+              child: TextWidget(widget.text, color: white, fontSize: smallMedium, letterSpacing: 3),
+            ),
     );
   }
 }
@@ -227,6 +242,8 @@ class TextFieldWidget extends StatelessWidget {
   final int? maxLines;
   final bool obscureText;
   final Widget? suffixIcon;
+  final bool useLabel;
+  final AutovalidateMode? autovalidateMode;
 
   const TextFieldWidget({
     super.key,
@@ -241,14 +258,15 @@ class TextFieldWidget extends StatelessWidget {
     this.maxLines,
     this.obscureText = false,
     this.suffixIcon,
+    this.useLabel = true,
+    this.autovalidateMode,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (hintText != null) TextWidget(hintText!),
+        if (hintText != null && useLabel) TextWidget(hintText!),
         TextFormField(
           controller: controller,
           validator: validator,
@@ -258,6 +276,7 @@ class TextFieldWidget extends StatelessWidget {
           textCapitalization: textCapitalization,
           maxLines: maxLines,
           obscureText: obscureText,
+          autovalidateMode: autovalidateMode,
           decoration: InputDecoration(
             counterText: "",
             helperText: validator == null ? null : "",
@@ -266,9 +285,7 @@ class TextFieldWidget extends StatelessWidget {
             suffixIcon: suffixIcon,
             filled: true,
             fillColor: white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(2.w),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.w), borderSide: BorderSide.none),
             contentPadding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
           ),
         ),
