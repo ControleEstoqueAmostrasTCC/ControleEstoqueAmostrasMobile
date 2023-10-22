@@ -48,7 +48,7 @@ class _AddEditDescriptionItemPageState extends State<AddEditDescriptionItemPage>
                         padding: EdgeInsets.symmetric(horizontal: 2.w),
                         margin: EdgeInsets.symmetric(vertical: 1.h),
                         decoration: BoxDecoration(
-                          color: blueAccent,
+                          color: white,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(

@@ -31,7 +31,7 @@ class CardMenuWidget extends StatelessWidget {
                 ),
               )
             else
-              Expanded(child: Icon(path as IconData, size: 10.h, color: blueIcon)),
+              Expanded(child: Icon(path as IconData, size: 10.h, color: lightBlack)),
             Padding(
               padding: EdgeInsets.only(bottom: 1.h),
               child: TextWidget(title, fontWeight: FontWeight.bold),
