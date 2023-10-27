@@ -24,7 +24,8 @@ class User extends BaseDescriptionEntity {
   bool get canViewSpecieMenu => claims?.any((e) => e.type == "Espécie" && e.value == "Visualizar") ?? false;
   bool get canViewUserMenu => claims?.any((e) => e.type == "Usuário" && e.value == "Visualizar") ?? false;
   bool get canEditAccessUser => claims?.any((e) => e.type == "Usuário" && e.value == "Editar Acesso") ?? false;
-  bool get canDownloadExcel => claims?.any((e) => e.type == "Usuário" && e.value == "Excel") ?? false;
+  bool get canDownloadExcel => claims?.any((e) => e.type == "Usuário" && e.value == "DownloadExcel") ?? false;
+  bool get canUploadExcel => claims?.any((e) => e.type == "Usuário" && e.value == "UploadExcel") ?? false;
 
   User({
     required super.id,
