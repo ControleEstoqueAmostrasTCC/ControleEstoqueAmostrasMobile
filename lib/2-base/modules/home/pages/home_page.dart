@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:controle_estoque_amostras_app/1-base/services/register_service.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/home/pages/reset_password_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/home/widgets/card_menu_widget.dart';
@@ -10,6 +13,7 @@ import 'package:controle_estoque_amostras_app/2-base/utils/assets.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/colors.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/popups.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
@@ -69,7 +73,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (user.canViewRegisterMenu)
+              if (user.canViewBoxMenu)
                 CardMenuWidget(
                   path: iconBox,
                   title: "Caixas",
@@ -133,10 +137,20 @@ class HomePage extends StatelessWidget {
                     final registerService = RegisterService();
                     final file = await registerService.generateRegisterExcel();
                     if (file == null) {
-                      await errorPopUp("Erro ao gerar o arquivo excel", context);
+                      return errorPopUp("Erro ao gerar o arquivo excel", context);
                     }
                     Navigator.pop(context);
-                    await Share.shareXFiles([XFile(file!.path)]);
+                    if (!kIsWeb) {
+                      await Share.shareXFiles([XFile(file.path)]);
+                    } else {
+                      final rawData = file.readAsBytesSync();
+                      final content = base64Encode(rawData);
+                      final anchor = AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,$content")
+                        ..setAttribute("download", "file.txt");
+                      document.body?.append(anchor);
+                      anchor.click();
+                      anchor.remove();
+                    }
                   },
                 ),
               CardMenuWidget(

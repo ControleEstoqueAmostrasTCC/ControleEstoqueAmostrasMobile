@@ -56,7 +56,7 @@ class _AddEditDescriptionItemPageState extends State<AddEditDescriptionItemPage>
                             TextDescriptionWidget(title: "Nome", description: register.number.toString()),
                             TextDescriptionWidget(title: "Espécie", description: register.specieDisplay),
                             TextDescriptionWidget(
-                              title: "Caixa",
+                              title: "Caixa Tecido",
                               description:
                                   "${register.boxDisplay} (${register.horizontalPosition} ${returnLetterFromNumber(register.verticalPosition!)})",
                             ),
