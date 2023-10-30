@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:controle_estoque_amostras_app/1-base/context/context.dart';
 import 'package:controle_estoque_amostras_app/1-base/models/register/register.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/base/base_service.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/interfaces/iregister_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class RegisterService extends BaseService<Register> implements IRegisterService {
@@ -66,7 +63,7 @@ class RegisterService extends BaseService<Register> implements IRegisterService 
   }
 
   @override
-  Future<File?> generateRegisterExcel() async {
+  Future<Uint8List?> generateRegisterExcel() async {
     try {
       final url = Uri.parse(
         '${baseUrl}Register/GenerateRegisterExcel',
@@ -74,10 +71,7 @@ class RegisterService extends BaseService<Register> implements IRegisterService 
       final response = await client.get(url);
       if (hasErrorResponse(response)) throw Exception();
       final bytes = response.bodyBytes;
-      final directory = kIsWeb ? Directory('assets/excels') : await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/amostras_${DateTime.now().millisecondsSinceEpoch}.xlsx');
-      await file.writeAsBytes(bytes);
-      return file;
+      return bytes;
     } catch (_) {
       return null;
     }

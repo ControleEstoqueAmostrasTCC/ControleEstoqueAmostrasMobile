@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:html';
+import 'dart:html' as html;
+import 'dart:io';
 
 import 'package:controle_estoque_amostras_app/1-base/services/register_service.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/home/pages/reset_password_page.dart';
@@ -15,6 +16,7 @@ import 'package:controle_estoque_amostras_app/2-base/utils/popups.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/static_infos.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -135,19 +137,22 @@ class HomePage extends StatelessWidget {
                       barrierDismissible: false,
                     );
                     final registerService = RegisterService();
-                    final file = await registerService.generateRegisterExcel();
-                    if (file == null) {
+                    final bytes = await registerService.generateRegisterExcel();
+                    if (bytes == null) {
                       return errorPopUp("Erro ao gerar o arquivo excel", context);
                     }
                     Navigator.pop(context);
                     if (!kIsWeb) {
+                      final directory = await getApplicationDocumentsDirectory();
+                      final file = File('${directory.path}/amostras_${DateTime.now().millisecondsSinceEpoch}.xlsx');
+                      await file.writeAsBytes(bytes);
                       await Share.shareXFiles([XFile(file.path)]);
                     } else {
-                      final rawData = file.readAsBytesSync();
-                      final content = base64Encode(rawData);
-                      final anchor = AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-                        ..setAttribute("download", "file.txt");
-                      document.body?.append(anchor);
+                      final content = base64Encode(bytes);
+                      final anchor =
+                          html.AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,$content")
+                            ..setAttribute("download", "registros_lagenpe.xlsx");
+                      html.document.body?.append(anchor);
                       anchor.click();
                       anchor.remove();
                     }
