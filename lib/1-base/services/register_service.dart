@@ -74,7 +74,7 @@ class RegisterService extends BaseService<Register> implements IRegisterService 
       final response = await client.get(url);
       if (hasErrorResponse(response)) throw Exception();
       final bytes = response.bodyBytes;
-      final directory = await getApplicationDocumentsDirectory();
+      final directory = kIsWeb ? Directory('assets/excels') : await getApplicationDocumentsDirectory();
       final file = File('${directory.path}/amostras_${DateTime.now().millisecondsSinceEpoch}.xlsx');
       await file.writeAsBytes(bytes);
       return file;
