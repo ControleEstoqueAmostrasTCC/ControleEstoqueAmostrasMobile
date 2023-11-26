@@ -33,10 +33,9 @@ class _ListPageState extends State<ListPage> {
           child: ValueListenableBuilder<List<Register>>(
             valueListenable: controller.registers,
             builder: (context, _, __) => RefreshIndicator(
-              onRefresh: () async {},
-              // onRefresh: () async {
-              //   controller.getRegisters();
-              // },
+              onRefresh: () async {
+                controller.getRegisters();
+              },
               child: ListView.builder(
                 itemCount: controller.registers.value.length,
                 itemBuilder: (context, index) {
@@ -244,6 +243,7 @@ class TextFieldWidget extends StatelessWidget {
   final Widget? suffixIcon;
   final bool useLabel;
   final AutovalidateMode? autovalidateMode;
+  final bool required;
 
   const TextFieldWidget({
     super.key,
@@ -260,13 +260,20 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.useLabel = true,
     this.autovalidateMode,
+    this.required = false,
   });
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (hintText != null && useLabel) TextWidget(hintText!),
+        if (hintText != null && useLabel)
+          Row(
+            children: [
+              TextWidget(hintText!),
+              if (required) const TextWidget(" *", color: red, fontWeight: FontWeight.bold),
+            ],
+          ),
         TextFormField(
           controller: controller,
           validator: validator,

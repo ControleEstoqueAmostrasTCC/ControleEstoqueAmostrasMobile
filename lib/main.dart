@@ -7,7 +7,6 @@ import 'package:controle_estoque_amostras_app/1-base/services/register_service.d
 import 'package:controle_estoque_amostras_app/1-base/services/specie_service.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/tissue_service.dart';
 import 'package:controle_estoque_amostras_app/1-base/services/user_service.dart';
-import 'package:controle_estoque_amostras_app/2-base/modules/list/pages/list_web_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/login/pages/login_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/utils/instance_manager.dart';
 import 'package:flutter/foundation.dart';
@@ -49,10 +48,7 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           home: const LoginPage(),
-          routes: {
-            '/lista': (context) => const ListWebPage(),
-          },
-          initialRoute: kIsWeb && (100.w > 600) ? '/lista' : '/',
+          initialRoute: '/',
         ),
       ),
     );

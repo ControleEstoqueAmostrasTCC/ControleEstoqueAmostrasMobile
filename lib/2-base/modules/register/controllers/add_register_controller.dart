@@ -421,13 +421,13 @@ class AddRegisterController extends ChangeNotifier {
 
   Future<void> _generatedItens() async {
     await Future.wait([
-      _generateBoxItem(),
-      _generateGenderItem(),
-      _generateProcedureItem(),
-      _generateSpecieItem(),
-      _generateTissueItem(),
-      _generateUserItem(),
-      _generateCollectionLocationItem(),
+      if (boxController.text.isNotEmpty) _generateBoxItem(),
+      if (genderController.text.isNotEmpty) _generateGenderItem(),
+      if (procedureController.text.isNotEmpty) _generateProcedureItem(),
+      if (specieController.text.isNotEmpty) _generateSpecieItem(),
+      if (tissueController.text.isNotEmpty) _generateTissueItem(),
+      if (userController.text.isNotEmpty) _generateUserItem(),
+      if (collectionLocationController.text.isNotEmpty) _generateCollectionLocationItem(),
     ]);
   }
 

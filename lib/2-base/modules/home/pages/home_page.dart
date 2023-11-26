@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:html' as html;
 import 'dart:io';
-
 import 'package:controle_estoque_amostras_app/1-base/services/register_service.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/home/pages/reset_password_page.dart';
 import 'package:controle_estoque_amostras_app/2-base/modules/home/widgets/card_menu_widget.dart';
@@ -19,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_html/html.dart' as html;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -41,6 +40,17 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const MenuPage()),
                 ),
               ),
+              if (user.canViewSpecieMenu)
+                CardMenuWidget(
+                  path: iconSpecie,
+                  title: "Espécies",
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ListDescriptionPage(entityName: "Specie", title: "Espécies"),
+                    ),
+                  ),
+                ),
               if (user.canViewTissueMenu)
                 CardMenuWidget(
                   path: iconTissue,
@@ -82,17 +92,6 @@ class HomePage extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const ListDescriptionPage(entityName: "Box", title: "Caixas")),
-                  ),
-                ),
-              if (user.canViewSpecieMenu)
-                CardMenuWidget(
-                  path: iconSpecie,
-                  title: "Espécies",
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ListDescriptionPage(entityName: "Specie", title: "Espécies"),
-                    ),
                   ),
                 ),
               if (user.canViewGenderMenu)

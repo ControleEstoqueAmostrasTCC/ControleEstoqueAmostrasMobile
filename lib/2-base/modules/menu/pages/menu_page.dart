@@ -25,6 +25,17 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   @override
+  void dispose() {
+    try {
+      Future.microtask(() => menuController.changePage(0));
+    } catch (_) {}
+    try {
+      Future.microtask(() => addRegisterController.resetVariables());
+    } catch (_) {}
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
       tipoConstrucao: TipoConstrucao.coluna,

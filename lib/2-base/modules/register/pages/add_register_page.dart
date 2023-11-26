@@ -60,6 +60,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                   controller: controller.registerNumberController,
                   hintText: "Número de Registro",
                   validator: defaultValidator,
+                  required: true,
                 ),
                 ValueListenableBuilder(
                   valueListenable: controller.boxes,
@@ -70,6 +71,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         controller.boxes.value.map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e)).toList(),
                     onSuggestionTap: (value) => controller.selectedBox.value = value.item as Box,
                     validator: (value) => value.isNullOrEmpty ? "Caixa inválida" : null,
+                    required: true,
                   ),
                 ),
                 ValueListenableBuilder(
@@ -81,7 +83,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
                         .toList(),
                     onSuggestionTap: (value) => controller.selectedGender.value = value.item as Gender,
-                    validator: (value) => value.isNullOrEmpty ? "Sexo inválido" : null,
+                    // validator: (value) => value.isNullOrEmpty ? "Sexo inválido" : null,
                   ),
                 ),
                 ValueListenableBuilder(
@@ -94,7 +96,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         .toList(),
                     onSuggestionTap: (value) =>
                         controller.selectedCollectionLocation.value = value.item as CollectionLocation,
-                    validator: (value) => value.isNullOrEmpty ? "Local de Coleta inválido" : null,
+                    // validator: (value) => value.isNullOrEmpty ? "Local de Coleta inválido" : null,
                   ),
                 ),
                 ValueListenableBuilder(
@@ -106,7 +108,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         .map((e) => SearchFieldListItem((e.description ?? e.name)!, item: e))
                         .toList(),
                     onSuggestionTap: (value) => controller.selectedProcedure.value = value.item as Procedure,
-                    validator: (value) => value.isNullOrEmpty ? "Procedimento inválido" : null,
+                    // validator: (value) => value.isNullOrEmpty ? "Procedimento inválido" : null,
                   ),
                 ),
                 ValueListenableBuilder(
@@ -119,6 +121,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         .toList(),
                     onSuggestionTap: (value) => controller.selectedSpecie.value = value.item as Specie,
                     validator: (value) => value.isNullOrEmpty ? "Espécie inválida" : null,
+                    required: true,
                   ),
                 ),
                 ValueListenableBuilder(
@@ -131,6 +134,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         .toList(),
                     onSuggestionTap: (value) => controller.selectedTissue.value = value.item as Tissue,
                     validator: (value) => value.isNullOrEmpty ? "Tecido inválido" : null,
+                    required: true,
                   ),
                 ),
                 ValueListenableBuilder(
@@ -150,7 +154,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         .map((e) => SearchFieldListItem(e.name!, item: e, child: TextWidget(e.name!)))
                         .toList(),
                     onSuggestionTap: (value) => controller.selectedUser.value = value.item as User,
-                    validator: (value) => value.isNullOrEmpty ? "Responsável inválido" : null,
+                    // validator: (value) => value.isNullOrEmpty ? "Responsável inválido" : null,
                   ),
                 ),
                 Row(
@@ -165,6 +169,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
+                        required: true,
                       ),
                     ),
                     SizedBox(width: 1.w),
@@ -178,15 +183,20 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp("[A-Z]")),
                         ],
+                        required: true,
                       ),
                     ),
                   ],
                 ),
-                TextFieldWidget(controller: controller.freezerController, hintText: "Freezer", validator: defaultValidator),
+                TextFieldWidget(
+                  controller: controller.freezerController,
+                  hintText: "Freezer",
+                ),
                 TextFieldWidget(
                   controller: controller.cytogeneticController,
                   hintText: "Citogenética",
                   validator: defaultValidator,
+                  required: true,
                 ),
                 ValueListenableBuilder(
                   valueListenable: controller.hasCytogenetic,
@@ -204,6 +214,7 @@ class _AddRegisterPageState extends State<AddRegisterPage> with Validators {
                   inputFormatters: [
                     controller.dateMask,
                   ],
+                  required: true,
                 ),
                 TextFieldWidget(controller: controller.observationController, hintText: "Observação", maxLines: 4),
               ],
@@ -221,6 +232,7 @@ class SearchFieldWidget extends StatelessWidget {
   final FutureOr<void> Function(SearchFieldListItem) onSuggestionTap;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final bool required;
 
   const SearchFieldWidget({
     super.key,
@@ -229,6 +241,7 @@ class SearchFieldWidget extends StatelessWidget {
     required this.label,
     required this.controller,
     this.validator,
+    this.required = false,
   });
 
   @override
@@ -236,7 +249,12 @@ class SearchFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextWidget(label),
+        Row(
+          children: [
+            TextWidget(label),
+            if (required) const TextWidget(" *", color: Colors.red),
+          ],
+        ),
         SearchField(
           itemHeight: 5.5.h,
           controller: controller,
