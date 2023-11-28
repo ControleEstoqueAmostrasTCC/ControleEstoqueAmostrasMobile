@@ -253,42 +253,49 @@ class AddRegisterController extends ChangeNotifier {
 
   Future<void> getBoxes() async {
     _boxes.value = await BoxService().getAll();
+    _boxes.value = _boxes.value.where((element) => element.active).toList();
     _boxes.value.sort((a, b) => (a.description ?? a.name)!.compareTo((b.description ?? b.name)!));
     _boxes.notifyListeners();
   }
 
   Future<void> getCollectionLocations() async {
     _collectionLocations.value = await CollectionLocationService().getAll();
+    _collectionLocations.value = _collectionLocations.value.where((element) => element.active).toList();
     _collectionLocations.value.sort((a, b) => (a.description ?? a.name)!.compareTo((b.description ?? b.name)!));
     _collectionLocations.notifyListeners();
   }
 
   Future<void> getGenders() async {
     _genders.value = await GenderService().getAll();
+    _genders.value = _genders.value.where((element) => element.active).toList();
     _genders.value.sort((a, b) => a.id.compareTo(b.id));
     _genders.notifyListeners();
   }
 
   Future<void> getProcedures() async {
     _procedures.value = await ProcedureService().getAll();
+    _procedures.value = _procedures.value.where((element) => element.active).toList();
     _procedures.value.sort((a, b) => (a.description ?? a.name)!.compareTo((b.description ?? b.name)!));
     _procedures.notifyListeners();
   }
 
   Future<void> getSpecies() async {
     _species.value = await SpecieService().getAll();
+    _species.value = _species.value.where((element) => element.active).toList();
     _species.value.sort((a, b) => (a.description ?? a.name)!.compareTo((b.description ?? b.name)!));
     _species.notifyListeners();
   }
 
   Future<void> getTissues() async {
     _tissues.value = await TissueService().getAll();
+    _tissues.value = _tissues.value.where((element) => element.active).toList();
     _tissues.value.sort((a, b) => (a.description ?? a.name)!.compareTo((b.description ?? b.name)!));
     _tissues.notifyListeners();
   }
 
   Future<void> getUsers() async {
     _users.value = await UserService().getAll();
+    _users.value = _users.value.where((element) => element.active).toList();
     _users.value.sort((a, b) => a.name!.compareTo(b.name!));
     _users.notifyListeners();
   }
